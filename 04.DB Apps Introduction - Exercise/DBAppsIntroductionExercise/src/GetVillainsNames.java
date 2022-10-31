@@ -11,12 +11,14 @@ public class GetVillainsNames {
             " GROUP BY mv.villain_id" +
             " having minions_count > ?" +
             " order by minions_count;";
+
     public static void main(String[] args) throws SQLException {
        final Connection connection = Utils.getSQLConnection();
 
        final PreparedStatement statement = connection.prepareStatement(GET_VILLAINS_NAMES);
 
        statement.setInt(1, 15);
+
 
        final ResultSet resultSet = statement.executeQuery();
 
