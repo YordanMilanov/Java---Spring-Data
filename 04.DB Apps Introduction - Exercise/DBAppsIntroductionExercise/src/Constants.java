@@ -10,4 +10,6 @@ enum Constants {
 
     static final String COLUMN_LABEL_NAME = "name";
     static final String COLUMN_LABEL_AGE = "age";
+
+    static final String COLUMN_LABEL_ID = "id";
 }
