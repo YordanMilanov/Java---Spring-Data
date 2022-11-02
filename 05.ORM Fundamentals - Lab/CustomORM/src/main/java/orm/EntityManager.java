@@ -6,6 +6,7 @@ import annotations.Id;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +58,13 @@ public class EntityManager<E> implements DBContext<E> {
             Object o = field.get(entity);
             values.add(o.toString());
 
+            if (o instanceof String || o instanceof LocalDate) {
+                values.add("`" + o +"`");
+            } else {
+                values.add(o.toString());
+            }
         }
+
 
        return String.join(", ", values);
     }
