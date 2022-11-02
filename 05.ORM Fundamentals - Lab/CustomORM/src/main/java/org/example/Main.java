@@ -13,12 +13,12 @@ import static orm.MyConnector.getConnection;
 
 public class Main {
     public static void main(String[] args) throws SQLException, IllegalAccessException {
-        createConnection("root", "12345", "custom-orm");
+        createConnection("root", "", "custom-orm");
         Connection connection = getConnection();
 
         EntityManager<User> userEntityManager = new EntityManager<>(connection);
 
-        User user = new User("pesho", 25, LocalDate.now());
+        User user = new User("gosho guzeto", 25, LocalDate.now());
 
         userEntityManager.persist(user);
     }
