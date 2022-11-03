@@ -26,5 +26,6 @@ public class Main_02ChangeCasing {
         }
 
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 }

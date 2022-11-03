@@ -26,5 +26,6 @@ public class Main_03CheckEmployeeExists {
         }
 
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 }

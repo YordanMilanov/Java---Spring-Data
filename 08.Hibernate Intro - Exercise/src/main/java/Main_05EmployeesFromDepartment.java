@@ -22,5 +22,6 @@ public class Main_05EmployeesFromDepartment {
                 });
 
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 }

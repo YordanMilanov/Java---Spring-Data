@@ -16,5 +16,6 @@ public class Main_04RichEmployeesFirstNames {
         employeesNames.forEach(System.out::println);
 
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 }

@@ -15,5 +15,6 @@ public class Main_01 {
 
         System.out.println(town);
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 }
