@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class EntityManager<E> implements DBContext<E> {
 
@@ -111,7 +110,7 @@ public class EntityManager<E> implements DBContext<E> {
     }
 
 
-    private String getColumnValuesWithoutId(E entity) throws IllegalAccessException {
+    private List<String> getColumnValuesWithoutId(E entity) throws IllegalAccessException {
         Class<?> aClass = entity.getClass();
         List<Field> fields = Arrays.stream(aClass.getDeclaredFields())
                 .filter(f -> !f.isAnnotationPresent(Id.class))
@@ -131,16 +130,16 @@ public class EntityManager<E> implements DBContext<E> {
         }
 
 
-        return String.join(", ", values);
+        return values;
     }
 
-    private String getColumnsWithoutId(Class<?> aClass) {
+    private List<String> getColumnsWithoutId(Class<?> aClass) {
         return Arrays.stream(aClass.getDeclaredFields())
                 .filter(f -> !f.isAnnotationPresent(Id.class))
                 .filter(f -> f.isAnnotationPresent(Column.class))
                 .map(f -> f.getAnnotationsByType(Column.class))
                 .map(a -> a[0].name())
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
     }
 
     public boolean persist(E entity) throws IllegalAccessException, SQLException {
@@ -149,12 +148,34 @@ public class EntityManager<E> implements DBContext<E> {
         Object idValue = idColumn.get(entity);
 
         if (idValue == null || (long) idValue <= 0) {
-            return doInsert(entity, idColumn);
+            return doInsert(entity);
         }
 
         //  return doUpdate(entity);
 
-        return false;
+        return doUpdate(entity,(long) idValue);
+    }
+
+    private boolean doUpdate(E entity, long idValue) throws SQLException, IllegalAccessException {
+        String tableName = getTableName(entity.getClass());
+        List<String> tableFields = getColumnsWithoutId(entity.getClass());
+        List<String> tableValues = getColumnValuesWithoutId(entity);
+
+        List<String> setStatements = new ArrayList<>();
+        for (int i = 0; i < tableFields.size(); i++) {
+            String statement = tableFields.get(i) + " = " + tableValues.get(i);
+
+            setStatements.add(statement);
+        }
+
+        String updateQuery = String.format("UPDATE %s SET %s WHERE id = %d",
+                tableName,
+                String.join(", " , setStatements),
+                idValue);
+
+        PreparedStatement statement = connection.prepareStatement(updateQuery);
+
+        return statement.execute();
     }
 
     private String getSQLFieldsWithTypes(Class<E> entityClass) {
@@ -183,12 +204,15 @@ public class EntityManager<E> implements DBContext<E> {
         return sqlType;
     }
 
-    private boolean doInsert(E entity, Field idColumn) throws IllegalAccessException, SQLException {
+    private boolean doInsert(E entity) throws IllegalAccessException, SQLException {
         String tableName = getTableName(entity.getClass());
-        String tableFields = getColumnsWithoutId(entity.getClass());
-        String tableValues = getColumnValuesWithoutId(entity);
+        List<String> tableFields = getColumnsWithoutId(entity.getClass());
+        List<String> tableValues = getColumnValuesWithoutId(entity);
 
-        String insertQuery = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, tableFields, tableValues);
+        String insertQuery = String.format("INSERT INTO %s (%s) VALUES (%s)",
+                tableName,
+                String.join( ", ",tableFields),
+                String.join(", ",tableValues));
 
 
         return connection.prepareStatement(insertQuery).execute();

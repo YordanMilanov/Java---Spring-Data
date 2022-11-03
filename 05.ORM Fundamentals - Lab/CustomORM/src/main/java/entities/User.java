@@ -61,4 +61,12 @@ public class User {
     public void setLastLoggedIn(LocalDate lastLoggedIn) {
         this.lastLoggedIn = lastLoggedIn;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
