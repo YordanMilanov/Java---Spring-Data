@@ -6,12 +6,13 @@ import annotations.Id;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EntityManager<E> implements DBContext<E> {
 
@@ -21,30 +22,54 @@ public class EntityManager<E> implements DBContext<E> {
         this.connection = connection;
     }
 
-    @Override
-    public boolean persist(E entity) throws IllegalAccessException, SQLException {
-        Field idColumn = getIdColumn(entity.getClass());
-        idColumn.setAccessible(true);
-        Object idValue = idColumn.get(entity);
+    public void doAlter(Class<?> entityClass) throws SQLException {
+        String tableName = getTableName(entityClass);
+        String addColumnStatements = getAddColumnStatementsForNewFields(entityClass);
 
-        if (idValue == null || (long) idValue <= 0) {
-            return doInsert(entity, idColumn);
-        }
-
-        //  return doUpdate(entity);
-
-        return false;
+        String alterQuery = String.format("ALTER TABLE %S %s", tableName, addColumnStatements);
+        PreparedStatement statement = connection.prepareStatement(alterQuery);
+        statement.execute();
     }
 
-    private boolean doInsert(E entity, Field idColumn) throws IllegalAccessException, SQLException {
-        String tableName = getTableName(entity.getClass());
-        String tableFields = getColumnsWithoutId(entity.getClass());
-        String tableValues = getColumnValuesWithoutId(entity);
+    private String getAddColumnStatementsForNewFields(Class<?> entityClass) throws SQLException {
+        Set<String> sqlColumns = getSQLColumnsNames(entityClass);
 
-        String insertQuery = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, tableFields, tableValues);
+        List<Field> fields = Arrays.stream(entityClass.getDeclaredFields())
+                .filter(f -> !f.isAnnotationPresent(Id.class))
+                .filter(f -> f.isAnnotationPresent(Column.class))
+                .collect(Collectors.toList());
 
+        List<String> allAddStatements = new ArrayList<>();
+        for(Field field : fields) {
+            String fieldName = field.getAnnotationsByType(Column.class)[0].name();
 
-        return connection.prepareStatement(insertQuery).execute();
+            if (sqlColumns.contains(fieldName)) {
+                continue;
+            }
+            String sqlType = getSQLType(field.getType());
+            String addStatement = String.format("ADD COLUMN %s %s", fieldName, sqlType);
+            allAddStatements.add(addStatement);
+        }
+
+        return String.join(", ", allAddStatements) ;
+    }
+
+    private Set<String> getSQLColumnsNames(Class<?> entityClass) throws SQLException {
+        String schemaQuery = "SELECT COLUMN_NAME FROM information_schema.`COLUMNS` c\n" +
+                "WHERE c.TABLE_SCHEMA = 'custom-orm'\n" +
+                "AND COLUMN_NAME != 'id'\n" +
+                "AND TABLE_NAME = 'users';";
+
+        PreparedStatement statement = connection.prepareStatement(schemaQuery);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        Set<String> result = new HashSet<>();
+        while (resultSet.next()) {
+            String columnName = resultSet.getString("COLUMN_NAME");
+            result.add(columnName);
+        }
+        return result;
     }
 
 
@@ -116,5 +141,67 @@ public class EntityManager<E> implements DBContext<E> {
                 .map(f -> f.getAnnotationsByType(Column.class))
                 .map(a -> a[0].name())
                 .collect(Collectors.joining(","));
+    }
+
+    public boolean persist(E entity) throws IllegalAccessException, SQLException {
+        Field idColumn = getIdColumn(entity.getClass());
+        idColumn.setAccessible(true);
+        Object idValue = idColumn.get(entity);
+
+        if (idValue == null || (long) idValue <= 0) {
+            return doInsert(entity, idColumn);
+        }
+
+        //  return doUpdate(entity);
+
+        return false;
+    }
+
+    private String getSQLFieldsWithTypes(Class<E> entityClass) {
+        return Arrays.stream(entityClass.getDeclaredFields())
+                .filter(f -> !f.isAnnotationPresent(Id.class))
+                .filter(f -> f.isAnnotationPresent(Column.class))
+                .map(field -> {
+                    String fieldName = field.getAnnotationsByType(Column.class)[0].name();
+
+                    String sqlType = getSQLType(field.getType());
+
+                    return fieldName + " " + sqlType;
+                })
+                .collect(Collectors.joining(", "));
+    }
+
+    private static String getSQLType(Class<?> type) {
+        String sqlType = "";
+        if (type == Integer.class || type == int.class) {
+            sqlType = "INT";
+        } else if (type == String.class) {
+            sqlType = "VARCHAR(200)";
+        } else if (type == LocalDate.class) {
+            sqlType = "DATE";
+        }
+        return sqlType;
+    }
+
+    private boolean doInsert(E entity, Field idColumn) throws IllegalAccessException, SQLException {
+        String tableName = getTableName(entity.getClass());
+        String tableFields = getColumnsWithoutId(entity.getClass());
+        String tableValues = getColumnValuesWithoutId(entity);
+
+        String insertQuery = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, tableFields, tableValues);
+
+
+        return connection.prepareStatement(insertQuery).execute();
+    }
+
+    public void doCreate(Class<E> entityClass) throws SQLException {
+        String tableName = getTableName(entityClass);
+        String fieldsWithTypes = getSQLFieldsWithTypes(entityClass);
+
+        String createQuery = String.format("CREATE TABLE %s (id INT PRIMARY KEY AUTO_INCREMENT, %s);", tableName, fieldsWithTypes);
+
+        PreparedStatement statement = connection.prepareStatement(createQuery);
+
+        statement.execute();
     }
 }

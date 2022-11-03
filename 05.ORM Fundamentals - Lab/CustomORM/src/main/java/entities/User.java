@@ -19,10 +19,14 @@ public class User {
     @Column(name = "registration_date")
     private LocalDate registrationDate;
 
+    @Column(name = "last_logged_in")
+    private LocalDate lastLoggedIn;
+
     public User(String username, int age, LocalDate registrationDate) {
         this.username = username;
         this.age = age;
         this.registrationDate = registrationDate;
+        this.lastLoggedIn = LocalDate.now();
     }
 
     public String getUsername() {
@@ -50,4 +54,11 @@ public class User {
     }
 
 
+    public LocalDate getLastLoggedIn() {
+        return lastLoggedIn;
+    }
+
+    public void setLastLoggedIn(LocalDate lastLoggedIn) {
+        this.lastLoggedIn = lastLoggedIn;
+    }
 }
