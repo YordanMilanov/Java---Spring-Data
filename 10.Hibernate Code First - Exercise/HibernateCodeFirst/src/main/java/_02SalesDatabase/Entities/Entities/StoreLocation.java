@@ -1,6 +1,7 @@
 package _02SalesDatabase.Entities.Entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "store_location")
@@ -12,6 +13,9 @@ public class StoreLocation {
 
     @Column(name = "location_name", nullable = false)
     private String locationName;
+
+    @OneToMany(targetEntity = Sale.class, mappedBy = "storeLocation")
+    private Set<Sale> sales;
 
     public StoreLocation() {
     }

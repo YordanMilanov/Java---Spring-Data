@@ -2,6 +2,7 @@ package _02SalesDatabase.Entities.Entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -19,6 +20,9 @@ public class Product {
 
     @Column(nullable = false)
     private BigDecimal price;
+
+    @OneToMany(targetEntity = Sale.class, mappedBy = "product")
+    private Set<Sale> sales;
 
     public Product() {
     }

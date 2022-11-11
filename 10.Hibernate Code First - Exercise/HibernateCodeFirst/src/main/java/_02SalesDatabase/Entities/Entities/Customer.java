@@ -1,6 +1,7 @@
 package _02SalesDatabase.Entities.Entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -18,6 +19,9 @@ public class Customer {
 
     @Column(name = "credit_card_number", nullable = false)
     private String creditCardNumbers;
+
+    @OneToMany(targetEntity = Sale.class, mappedBy = "customer")
+    private Set<Sale> sales;
 
     public Customer() {
     }
