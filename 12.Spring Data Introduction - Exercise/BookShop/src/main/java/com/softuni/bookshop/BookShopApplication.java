@@ -1,5 +1,6 @@
 package com.softuni.bookshop;
 
+import com.softuni.bookshop.domain.entities.Author;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,6 @@ public class BookShopApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BookShopApplication.class, args);
+        Author.builder().build();
     }
-
 }
