@@ -31,6 +31,6 @@ public class ConsoleRunner implements CommandLineRunner {
     }
 
     private void getAllBooksAfterAGivenYear() {
-       final List<Book> allByReleaseDateAfter = this.bookService.findAllByReleaseDateAfter(BOOK_YEAR);
+       this.bookService.findAllByReleaseDateAfter(BOOK_YEAR).forEach(b -> System.out.println(b.getTitle()));
     }
 }
