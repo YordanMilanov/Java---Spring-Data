@@ -4,6 +4,7 @@ import bg.softuni.advancedqueries.entities.Ingredient;
 import bg.softuni.advancedqueries.entities.Shampoo;
 import bg.softuni.advancedqueries.entities.Size;
 import bg.softuni.advancedqueries.repositories.ShampooRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -47,5 +48,14 @@ public class ShampooServiceImpl implements ShampooService {
         return this.shampooRepository.countByPriceLessThan(price);
     }
 
+    @Override
+    public List<Shampoo> findByIngredient(String ingredient) {
+        return this.shampooRepository.findByIngredient(ingredient);
+    }
+
+    @Override
+    public List<Shampoo> findAllShampoosWithIngredientsLessThan(Integer count) {
+        return this.shampooRepository.findAllShampoosWithIngredientsLessThan(count);
+    }
 
 }
