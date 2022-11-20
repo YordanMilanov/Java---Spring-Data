@@ -19,4 +19,8 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
     @Query("UPDATE Ingredient AS i SET i.price = i.price * 1.1")
     @Modifying
     void updateAllPriceBy10Percent();
+
+    @Query("UPDATE Ingredient AS i SET i.price = i.price * 1.1 WHERE i.name IN :names")
+    @Modifying
+    void updateAllPricesByGivenNAme(List<String> names);
 }

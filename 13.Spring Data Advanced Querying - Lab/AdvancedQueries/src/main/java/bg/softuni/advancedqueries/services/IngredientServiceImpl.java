@@ -37,4 +37,10 @@ public class IngredientServiceImpl implements IngredientService {
     public void updateAllPriceBy10Percent() {
         this.ingredientRepository.updateAllPriceBy10Percent();
     }
+
+    @Override
+    @Transactional
+    public void updateAllPricesByGivenNAme(List<String> names) {
+        this.ingredientRepository.updateAllPricesByGivenNAme(names);
+    }
 }

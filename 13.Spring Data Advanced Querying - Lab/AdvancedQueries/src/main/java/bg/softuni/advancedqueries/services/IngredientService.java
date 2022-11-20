@@ -12,4 +12,6 @@ public interface IngredientService {
     void deleteByName(String name);
 
     void updateAllPriceBy10Percent();
+
+    void updateAllPricesByGivenNAme(List<String> names);
 }
