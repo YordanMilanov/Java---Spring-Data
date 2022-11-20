@@ -29,11 +29,8 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
 
-        Integer input =Integer.parseInt(scanner.nextLine());
-        List<Shampoo> shampoos = shampooService.findAllShampoosWithIngredientsLessThan(input);
-        for (Shampoo shampoo : shampoos) {
-            System.out.println(shampoo);
-        }
+        this.ingredientService.updateAllPriceBy10Percent();
     }
 }

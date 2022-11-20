@@ -8,4 +8,8 @@ public interface IngredientService {
 
     List<Ingredient> selectByName(String start);
     List<Ingredient> findByNameInOrderByPriceAsc(List<String> ingredients);
+
+    void deleteByName(String name);
+
+    void updateAllPriceBy10Percent();
 }

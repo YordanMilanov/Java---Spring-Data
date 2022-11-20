@@ -4,6 +4,7 @@ import bg.softuni.advancedqueries.entities.Ingredient;
 import bg.softuni.advancedqueries.repositories.IngredientRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,5 +24,17 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<Ingredient> findByNameInOrderByPriceAsc(List<String> ingredients) {
         return this.ingredientRepository.findByNameInOrderByPriceAsc(ingredients);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByName(String name) {
+        this.ingredientRepository.deleteByName(name);
+    }
+
+    @Override
+    @Transactional
+    public void updateAllPriceBy10Percent() {
+        this.ingredientRepository.updateAllPriceBy10Percent();
     }
 }
