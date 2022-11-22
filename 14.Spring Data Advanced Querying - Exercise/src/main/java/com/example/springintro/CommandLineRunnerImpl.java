@@ -83,6 +83,25 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 */
 
         //   printAllAuthorsAndNumberOfTheirBooks();
+
+        //6.AuthorNameEndingWith
+        /*
+        String end = scanner.nextLine();
+        this.authorService.findAllByFirstNameEndingWith(end)
+                .stream()
+                .map(a -> a.getFirstName() + " " + a.getLastName())
+                .forEach(System.out::println);
+        */
+
+        //7.findBooksTitleContaining
+       /*
+       String contains = scanner.nextLine();
+        this.bookService.findAllByTitleContainingIgnoreCase(contains)
+                .stream()
+                .map(Book::getTitle)
+                .forEach(System.out::println);
+       */
+
         pritnALlBooksByAuthorNameOrderByReleaseDate("George", "Powell");
 
     }

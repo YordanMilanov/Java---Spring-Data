@@ -28,4 +28,6 @@ public interface BookService {
     List<Book> findAllByReleaseDateNot (LocalDate date);
 
     List<Book> findAllByReleaseDateBefore(LocalDate releaseDateBefore);
+
+    List<Book> findAllByTitleContainingIgnoreCase (String contains);
 }

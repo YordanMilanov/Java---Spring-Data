@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -60,5 +61,10 @@ public class AuthorServiceImpl implements AuthorService {
                         author.getLastName(),
                         author.getBooks().size()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Author> findAllByFirstNameEndingWith(String end) {
+        return this.authorRepository.findAllByFirstNameEndingWith(end).orElseThrow(NoSuchElementException::new);
     }
 }
