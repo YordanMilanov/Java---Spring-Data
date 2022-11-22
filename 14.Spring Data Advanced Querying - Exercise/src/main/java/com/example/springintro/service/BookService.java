@@ -2,9 +2,13 @@ package com.example.springintro.service;
 
 import com.example.springintro.model.entity.AgeRestriction;
 import com.example.springintro.model.entity.Book;
+import com.example.springintro.model.entity.EditionType;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
     void seedBooks() throws IOException;
@@ -17,4 +21,11 @@ public interface BookService {
 
     List<Book> findAllByAgeRestriction(AgeRestriction ageRestriction);
 
+    List<Book> findAllByEditionTypeAndCopiesLessThan(EditionType type, Integer copiesNumber);
+
+    List<Book> findAllByPriceLessThanOrPriceGreaterThan(BigDecimal lowEnd, BigDecimal highEnd);
+
+    List<Book> findAllByReleaseDateNot (LocalDate date);
+
+    List<Book> findAllByReleaseDateBefore(LocalDate releaseDateBefore);
 }

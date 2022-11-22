@@ -13,9 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,6 +81,31 @@ public class BookServiceImpl implements BookService {
     public List<Book> findAllByAgeRestriction(AgeRestriction ageRestriction) {
        return this.bookRepository.findAllByAgeRestriction(ageRestriction);
     }
+
+    @Override
+    public List<Book> findAllByEditionTypeAndCopiesLessThan(EditionType type, Integer copiesNumber) {
+        return this.bookRepository
+                .findAllByEditionTypeAndCopiesLessThan(type, copiesNumber)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public List<Book> findAllByPriceLessThanOrPriceGreaterThan(BigDecimal lowEnd, BigDecimal highEnd) {
+        return this.bookRepository
+                .findAllByPriceLessThanOrPriceGreaterThan(lowEnd, highEnd)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public List<Book> findAllByReleaseDateNot(LocalDate date) {
+        return this.bookRepository.findAllByReleaseDateNot(date).orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public List<Book> findAllByReleaseDateBefore(LocalDate releaseDateBefore) {
+        return this.bookRepository.findAllByReleaseDateBefore(releaseDateBefore);
+    }
+
 
     private Book createBookFromInfo(String[] bookInfo) {
         EditionType editionType = EditionType.values()[Integer.parseInt(bookInfo[0])];
