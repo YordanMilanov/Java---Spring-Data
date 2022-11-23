@@ -1,5 +1,6 @@
 package com.example.springintro.service;
 
+import com.example.springintro.dto.BookInformation;
 import com.example.springintro.model.entity.AgeRestriction;
 import com.example.springintro.model.entity.Book;
 import com.example.springintro.model.entity.EditionType;
@@ -30,4 +31,12 @@ public interface BookService {
     List<Book> findAllByReleaseDateBefore(LocalDate releaseDateBefore);
 
     List<Book> findAllByTitleContainingIgnoreCase (String contains);
+
+    Integer findAllByTitleLength (Integer length);
+
+    List<List<String>> BooksCopiesAuthorsSum();
+
+    BookInformation ReducedBookInformation(String title);
+
+    int increaseBookCopies(LocalDate date, int copies);
 }

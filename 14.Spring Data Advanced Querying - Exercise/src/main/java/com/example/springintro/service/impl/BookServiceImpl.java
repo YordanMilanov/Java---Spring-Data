@@ -1,5 +1,6 @@
 package com.example.springintro.service.impl;
 
+import com.example.springintro.dto.BookInformation;
 import com.example.springintro.model.entity.*;
 import com.example.springintro.repository.BookRepository;
 import com.example.springintro.service.AuthorService;
@@ -109,6 +110,26 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findAllByTitleContainingIgnoreCase(String contains) {
         return this.bookRepository.findAllByTitleContainingIgnoreCase(contains).orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public Integer findAllByTitleLength(Integer length) {
+        return this.bookRepository.findAllByTitleLength(length);
+    }
+
+    @Override
+    public List<List<String>> BooksCopiesAuthorsSum() {
+        return this.bookRepository.BooksCopiesAuthorsSum();
+    }
+
+    @Override
+    public BookInformation ReducedBookInformation(String title) {
+        return this.bookRepository.ReducedBookInformation(title);
+    }
+
+    @Override
+    public int increaseBookCopies(LocalDate date, int copies) {
+        return this.bookRepository.increaseBookCopies(date, copies);
     }
 
 

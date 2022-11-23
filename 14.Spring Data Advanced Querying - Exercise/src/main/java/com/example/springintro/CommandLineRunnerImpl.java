@@ -1,5 +1,6 @@
 package com.example.springintro;
 
+import com.example.springintro.dto.BookInformation;
 import com.example.springintro.model.entity.Author;
 import com.example.springintro.model.entity.Book;
 import com.example.springintro.service.AuthorService;
@@ -9,7 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -101,7 +104,8 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
        */
 
         //8.book title search
-        String start = scanner.nextLine();
+       /*
+       String start = scanner.nextLine();
         ArrayList<Author> authors = new ArrayList<>(this.authorService
                 .findAllByLastNameStartingWith(start));
 
@@ -111,10 +115,36 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 System.out.println(book.getTitle() + " (" + author.getFirstName() + " " + author.getLastName() + ")");
             }
         }
+        */
 
+        //9.CountBooks
+     /*
+     int length = Integer.parseInt(scanner.nextLine());
+        Integer allByTitleLength = this.bookService.findAllByTitleLength(length);
 
+        System.out.printf("There are %d books with longer title than %d symbols\n",allByTitleLength, length);
+        */
+
+        //10. Total Book Copies
+        /*
+        List<List<String>> info = this.bookService.BooksCopiesAuthorsSum();
+        for (List<String> author : info) {
+            System.out.println(author.get(0) + " " + author.get(1) + " - " + author.get(2));
+        }
+        */
+
+        //11.ReducedBookInfo
+        /*
+   BookInformation things_fall_apart = this.bookService.ReducedBookInformation("Things Fall Apart");
+        System.out.println(things_fall_apart);
+        */
+
+        //12. IncreaseBooksCopies
+   /*     final LocalDate date = LocalDate.parse(scanner.nextLine());
+        final int copies = Integer.parseInt(scanner.nextLine());
+
+        this.bookService.increaseBookCopies(date, copies);*/
         pritnALlBooksByAuthorNameOrderByReleaseDate("George", "Powell");
-
     }
 
     private void pritnALlBooksByAuthorNameOrderByReleaseDate(String firstName, String lastName) {

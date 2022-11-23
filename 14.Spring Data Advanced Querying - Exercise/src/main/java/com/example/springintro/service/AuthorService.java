@@ -16,4 +16,6 @@ public interface AuthorService {
     List<Author> findAllByFirstNameEndingWith (String end);
 
     List<Author> findAllByLastNameStartingWith (String start);
+
+    List<Author> findAll();
 }
