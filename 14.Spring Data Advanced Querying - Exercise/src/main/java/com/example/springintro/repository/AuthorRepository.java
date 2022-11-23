@@ -17,4 +17,5 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<Author> findAllByBooksSizeDESC();
 
     Optional<List<Author>> findAllByFirstNameEndingWith (String end);
+    Optional<List<Author>> findAllByLastNameStartingWith (String start);
 }

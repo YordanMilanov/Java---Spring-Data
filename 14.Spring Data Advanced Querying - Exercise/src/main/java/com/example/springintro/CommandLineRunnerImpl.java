@@ -1,8 +1,7 @@
 package com.example.springintro;
 
-import com.example.springintro.model.entity.AgeRestriction;
+import com.example.springintro.model.entity.Author;
 import com.example.springintro.model.entity.Book;
-import com.example.springintro.model.entity.EditionType;
 import com.example.springintro.service.AuthorService;
 import com.example.springintro.service.BookService;
 import com.example.springintro.service.CategoryService;
@@ -10,10 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
@@ -101,6 +99,19 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 .map(Book::getTitle)
                 .forEach(System.out::println);
        */
+
+        //8.book title search
+        String start = scanner.nextLine();
+        ArrayList<Author> authors = new ArrayList<>(this.authorService
+                .findAllByLastNameStartingWith(start));
+
+        for (Author author : authors) {
+            Set<Book> authorBooks = author.getBooks();
+            for (Book book : authorBooks) {
+                System.out.println(book.getTitle() + " (" + author.getFirstName() + " " + author.getLastName() + ")");
+            }
+        }
+
 
         pritnALlBooksByAuthorNameOrderByReleaseDate("George", "Powell");
 

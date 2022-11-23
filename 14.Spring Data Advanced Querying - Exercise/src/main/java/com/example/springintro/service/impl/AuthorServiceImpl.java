@@ -67,4 +67,9 @@ public class AuthorServiceImpl implements AuthorService {
     public List<Author> findAllByFirstNameEndingWith(String end) {
         return this.authorRepository.findAllByFirstNameEndingWith(end).orElseThrow(NoSuchElementException::new);
     }
+
+    @Override
+    public List<Author> findAllByLastNameStartingWith(String start) {
+        return this.authorRepository.findAllByLastNameStartingWith(start).orElseThrow(NoSuchElementException::new);
+    }
 }
