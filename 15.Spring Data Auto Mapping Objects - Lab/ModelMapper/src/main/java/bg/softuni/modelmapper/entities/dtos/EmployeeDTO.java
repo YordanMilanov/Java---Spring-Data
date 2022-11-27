@@ -15,14 +15,14 @@ public class EmployeeDTO {
     private String firstName;
     private BigDecimal salary;
 
-    private String city;
+    private String addressCity;
 
     @Override
     public String toString() {
         return "EmployeeDTO{" +
                 "firstName='" + firstName + '\'' +
                 ", salary=" + salary +
-                ", city='" + city + '\'' +
+                ", city='" + addressCity + '\'' +
                 '}';
     }
 }
