@@ -1,40 +1,33 @@
 package bg.softuni.modelmapper.entities;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "employees")
-public class Employee {
+@Table(name = "addresses")
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(nullable = false)
+    private String city;
 
     @Column(nullable = false)
-    private BigDecimal salary;
+    private String country;
 
-    @Column(nullable = false)
-    private LocalDate birthday;
-
-    @ManyToOne(optional = false)
-    private Address address;
-
-
+    public Address(String city, String country) {
+        this.city = city;
+        this.country = country;
+    }
 }
