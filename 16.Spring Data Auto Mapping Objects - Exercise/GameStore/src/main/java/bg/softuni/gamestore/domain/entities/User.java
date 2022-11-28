@@ -19,7 +19,7 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, name = "full_name")
+    @Column(nullable = false, name = "full_name", unique = true)
     private String fullName;
 
     @ManyToMany

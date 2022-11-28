@@ -68,4 +68,8 @@ public class UserRegister {
             throw new IllegalArgumentException(PASSWORD_MISS_MATCH_MASSAGE);
         }
     }
+
+    public String successfulRegisterFormat() {
+        return this.fullName + " was registered!";
+    }
 }

@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
-import static bg.softuni.gamestore.constants.Commands.REGISTER_USER;
-import static bg.softuni.gamestore.constants.validations.COMMAND_NOT_FOUND;
+import static bg.softuni.gamestore.constants.Commands.*;
 
 @Component
 public class ConsoleRunner implements CommandLineRunner {
@@ -23,11 +22,20 @@ public class ConsoleRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        final String[] input = scanner.nextLine().split("\\|");
-        final String command = input[0];
+        String input = scanner.nextLine();
+        while (!input.equals("close")) {
+            final String[] arguments = input.split("\\|");
+            final String command = arguments[0];
+            final String output = switch (command) {
 
-        switch (command) {
-           case REGISTER_USER -> userService.RegisterUser(input);
+                case REGISTER_USER -> userService.registerUser(arguments);
+                case LOGIN_USER -> userService.loginUser(arguments);
+                case LOGOUT_USER -> userService.logoutUser();
+                default -> "No command found";
+            };
+            System.out.println(output);
+            input = scanner.nextLine();
         }
+        ;
     }
 }
