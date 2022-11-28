@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import static bg.softuni.gamestore.constants.validations.*;
 
 
-public class UserRegister {
+public class UserRegisterDTO {
     //RegisterUser|<email>|<password>|<confirmPassword>|<fullName>
 
     private String email;
@@ -16,7 +16,7 @@ public class UserRegister {
 
     private String fullName;
 
-    public UserRegister(String email, String password, String confirmPassword, String fullName) {
+    public UserRegisterDTO(String email, String password, String confirmPassword, String fullName) {
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;

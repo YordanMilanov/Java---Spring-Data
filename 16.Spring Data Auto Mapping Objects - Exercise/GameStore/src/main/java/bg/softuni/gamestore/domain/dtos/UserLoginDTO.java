@@ -1,15 +1,15 @@
 package bg.softuni.gamestore.domain.dtos;
 
-public class UserLogin {
+public class UserLoginDTO {
 
     private String email;
 
     private String password;
 
-    public UserLogin() {
+    public UserLoginDTO() {
     }
 
-    public UserLogin(String email, String password) {
+    public UserLoginDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
