@@ -1,16 +1,13 @@
 package softuni.exam.models.entities;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "offers")
@@ -32,6 +29,13 @@ public class Offer extends BaseEntity{
     @Column(name = "date_and_time")
     private LocalDateTime dateAndTime;
 
+    @ManyToOne
+    private Car car;
+
+    @ManyToOne
+    private Seller seller;
+
     @ManyToMany
-    private List<Picture> pictures;
+    private Set<Picture> pictures;
+
 }

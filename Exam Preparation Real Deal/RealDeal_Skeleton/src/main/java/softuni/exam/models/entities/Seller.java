@@ -1,13 +1,11 @@
 package softuni.exam.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import softuni.exam.models.enums.Rating;
 
 import java.util.List;
 
@@ -29,11 +27,10 @@ public class Seller extends BaseEntity{
     private String email;
 
     @Column(nullable = false)
-    private String rating;
+    @Enumerated(EnumType.STRING)
+    private Rating rating;
 
     @Column(nullable = false)
     private String town;
 
-    @OneToMany
-    private List<Offer> offers;
 }

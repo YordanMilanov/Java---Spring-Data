@@ -94,6 +94,7 @@ public class PlayerServiceImpl implements PlayerService {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateTime = LocalDate.parse(dto.getBirthDate(), formatter);
+
         Set<ConstraintViolation<ImportPlayerDTO>> errors =
                 this.validator.validate(dto);
 

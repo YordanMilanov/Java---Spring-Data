@@ -1,2 +1,5 @@
-package softuni.exam.models.enums;public enum rating {
+package softuni.exam.models.enums;
+
+public enum Rating {
+    GOOD,BAD,UNKNOWN
 }
