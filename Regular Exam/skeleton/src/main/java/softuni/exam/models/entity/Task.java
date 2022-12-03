@@ -31,4 +31,16 @@ public class Task extends BaseEntity{
 
     @ManyToOne
     private Car car;
+
+    @Override
+    public String toString() {
+        return String.format("Car %s %s with %dkm\n" +
+                "-Mechanic: %s %s - task №:%d\n" +
+                "--Engine: %.1f\n" +
+                "---Price: %.2f$",
+                this.car.getCarMake(), this.car.getCarModel(), this.car.getKilometers(),
+                this.mechanic.getFirstName(), this.mechanic.getLastName(), this.getId(),
+                this.car.getEngine(),
+                this.getPrice());
+    }
 }
