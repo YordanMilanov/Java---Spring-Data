@@ -3,6 +3,7 @@ package softuni.exam.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.exam.models.dto.ImportMechanicDTO;
 import softuni.exam.models.entity.Mechanic;
@@ -23,13 +24,14 @@ import java.util.stream.Collectors;
 public class MechanicServiceImpl implements MechanicService {
 
     private final MechanicRepository mechanicRepository;
-    private static final Path PATH_MECHANICS = Path.of(("src/main/resources/files/json/mechanics.json"));
     private final Gson gson;
     private final Validator validator;
     private final ModelMapper modelMapper;
+    private static final Path PATH_MECHANICS = Path.of(("src/main/resources/files/json/mechanics.json"));
     private static final String INVALID_MASSAGE = "Invalid mechanic";
     private static final String SUCCESSFUL_IMPORT_FORMAT = "Successfully imported mechanic %s %s";
 
+    @Autowired
     public MechanicServiceImpl(MechanicRepository mechanicRepository) {
         this.mechanicRepository = mechanicRepository;
 

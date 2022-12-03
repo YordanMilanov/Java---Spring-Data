@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 public class PartServiceImpl implements PartService {
 
     private final PartRepository partRepository;
-    private static final Path PATH_PARTS = Path.of(("src/main/resources/files/json/parts.json"));
     private final Gson gson;
     private final Validator validator;
     private final ModelMapper modelMapper;
+    private static final Path PATH_PARTS = Path.of(("src/main/resources/files/json/parts.json"));
 
     private static final String INVALID_MASSAGE = "Invalid part";
     private static final String SUCCESSFUL_IMPORT_FORMAT = "Successfully imported part %s - %.2f";
