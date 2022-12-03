@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface CarRepository extends JpaRepository<Car, Long> {
 
     Optional<Car> findByPlateNumber(String plateNumber);
+    Optional<Car> findById(Long id);
 }

@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface PartRepository extends JpaRepository<Part, Long> {
 
     Optional<Part> findByPartName(String partName);
+    Optional<Part> findById(Long id);
+
 }
